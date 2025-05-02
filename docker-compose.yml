@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:15
+    container_name: my-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: mydb
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  # app:
+  #   build: .
+  #   container_name: my-nextjs
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - DATABASE_URL=postgresql://postgres:password123@db:5432/mydb
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - .:/app
+  #     # - /app/node_modules
+  #   # command: sh -c "npm install && npx prisma generate && npm run dev"
+  #   command: ["npm", "run", "dev"]
+  #   # entrypoint: ["sh", "-c", "while sleep 1000; do :; done"]
+
+volumes:
+  db-data:
