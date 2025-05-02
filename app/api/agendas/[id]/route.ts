@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 
 
- export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-    const meetingId = Number(params.id)
+ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    const meetingId = Number((await params).id)
   
     const meeting = await prisma.meeting.findUnique({
       where: { id: meetingId },
@@ -34,8 +34,9 @@ import { NextRequest, NextResponse } from 'next/server'
     return NextResponse.json(result)
   }
   
-  export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-    const meetingId = Number(params.id)
+  export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+
+    const meetingId = Number((await params).id)
     const body = await req.json()
   
     // chair の Member を取得（name指定）
