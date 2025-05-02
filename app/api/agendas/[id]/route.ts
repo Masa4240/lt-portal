@@ -1,29 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
-// app/api/agendas/edit/[id]/route.ts
-// export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-//     const meeting = await prisma.meeting.findUnique({
-//       where: { id: Number(params.id) },
-//       include: {
-//         chair: true,
-//         agendas: { include: { speaker: true } },
-//       },
-//     })
-  
-//     if (!meeting) return NextResponse.json({ chair: '', agendas: [] })
-  
-//     return NextResponse.json({
-//       chair: meeting.chair?.name || '',
-//       agendas: meeting.agendas.map((a) => ({
-//         id: a.id,
-//         title: a.title,
-//         speaker: a.speaker?.name || '',
-//       })),
-//     })
-//   }
 
-  export async function GET(_: Request, { params }: { params: { id: string } }) {
+
+ export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
     const meetingId = Number(params.id)
   
     const meeting = await prisma.meeting.findUnique({

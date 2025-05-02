@@ -1,14 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-
-type Agenda = {
-  id: string
-  date: string
-  titles: string[]
-  speakers: string[]
-  chair: string
-}
+import { useState } from 'react'
 
 export default function PortalPage() {
   const [newAgenda, setNewAgenda] = useState<{

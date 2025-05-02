@@ -24,28 +24,28 @@ export default function PortalPage() {
       today.setHours(0, 0, 0, 0) 
 
       const upcoming = data
-        .filter((agenda: any) => new Date(agenda.date) >= today)
-        .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .filter((agenda: Agenda) => new Date(agenda.date) >= today)
+        .sort((a: Agenda, b: Agenda) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
         setcomingAgendas(upcoming)
     }
 
     fetchAgendas()
   }, [])
-  const [agendas, setAgendas] = useState<Agenda[]>([])
-  useEffect(() => {
-    const fetchAgendas = async () => {
-      const response = await fetch('/api/agendas')
-      if (response.ok) {
-        const data = await response.json()
-        setAgendas(data)
-      } else {
-        alert('アジェンダの取得に失敗しました。')
-      }
-    }
+  // const [agendas, setAgendas] = useState<Agenda[]>([])
+  // useEffect(() => {
+  //   const fetchAgendas = async () => {
+  //     const response = await fetch('/api/agendas')
+  //     if (response.ok) {
+  //       const data = await response.json()
+  //       setAgendas(data)
+  //     } else {
+  //       alert('アジェンダの取得に失敗しました。')
+  //     }
+  //   }
 
-    fetchAgendas()
-  }, [])
+  //   fetchAgendas()
+  // }, [])
 
 
   return (
