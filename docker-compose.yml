@@ -24,7 +24,7 @@ services:
       - .:/app
       # - /app/node_modules
     # command: sh -c "npm install && npx prisma generate && npm run dev"
-    command: ["npm", "run", "dev"]
+    command: sh -c "npx prisma migrate deploy && npm start"
     # entrypoint: ["sh", "-c", "while sleep 1000; do :; done"]
 
 volumes:
