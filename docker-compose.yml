@@ -11,21 +11,21 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
-  # app:
-  #   build: .
-  #   container_name: my-nextjs
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - DATABASE_URL=postgresql://postgres:password123@db:5432/mydb
-  #   depends_on:
-  #     - db
-  #   volumes:
-  #     - .:/app
-  #     # - /app/node_modules
-  #   # command: sh -c "npm install && npx prisma generate && npm run dev"
-  #   command: ["npm", "run", "dev"]
-  #   # entrypoint: ["sh", "-c", "while sleep 1000; do :; done"]
+  app:
+    build: .
+    container_name: my-nextjs
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password123@db:5432/mydb
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      # - /app/node_modules
+    # command: sh -c "npm install && npx prisma generate && npm run dev"
+    command: sh -c "npx prisma migrate deploy && npm start"
+    # entrypoint: ["sh", "-c", "while sleep 1000; do :; done"]
 
 volumes:
   db-data:
