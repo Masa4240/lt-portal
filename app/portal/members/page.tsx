@@ -2,17 +2,20 @@
 
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Link from 'next/link'
 
 type Member = {
   id: number
   name: string
   isValid: boolean
+  chairCount: number
+  speakerCount: number
 }
 
 export default function MembersPage() {
   const [members, setMembers] = useState<Member[]>([])
   const [name, setName] = useState('')
-  const [sortOrder, setSortOrder] = useState<'id' | 'name'>('id')
+  const [sortOrder, setSortOrder] = useState<'name' | 'chair' | 'speaker'>('name')
 
   useEffect(() => {
     fetchMembers()
@@ -31,32 +34,41 @@ export default function MembersPage() {
   }
 
   const sortedMembers = [...members].sort((a, b) => {
-    if (sortOrder === 'id') {
-      return a.id - b.id
-    } else {
+    if (sortOrder === 'name') {
       return a.name.localeCompare(b.name)
+    } else if (sortOrder === 'chair') {
+      return b.chairCount - a.chairCount
+    } else if (sortOrder === 'speaker') {
+      return b.speakerCount - a.speakerCount
     }
+    return 0
   })
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-8 text-center">メンバー管理</h1>
 
       <div className="bg-white rounded-2xl shadow-md p-6 mb-10">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">メンバー一覧</h2>
-          <div>
-            <button
-              onClick={() => setSortOrder('id')}
-              className={`px-4 py-2 rounded-l-md ${sortOrder === 'id' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-            >
-              会員番号順
-            </button>
+          <div className="flex gap-2">
             <button
               onClick={() => setSortOrder('name')}
-              className={`px-4 py-2 rounded-r-md ${sortOrder === 'name' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+              className={`px-4 py-2 rounded-md ${sortOrder === 'name' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
             >
               ABC順
+            </button>
+            <button
+              onClick={() => setSortOrder('chair')}
+              className={`px-4 py-2 rounded-md ${sortOrder === 'chair' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            >
+              Chair回数順
+            </button>
+            <button
+              onClick={() => setSortOrder('speaker')}
+              className={`px-4 py-2 rounded-md ${sortOrder === 'speaker' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            >
+              発表回数順
             </button>
           </div>
         </div>
@@ -65,10 +77,14 @@ export default function MembersPage() {
           {sortedMembers.map((member) => (
             <li key={member.id} className="border p-3 rounded-md shadow-sm flex justify-between items-center">
               <div>
-                <span className="font-semibold mr-2">#{member.id}</span>
-                {member.name}
+                <div className="font-semibold">{member.name}</div>
+                <div className="text-sm text-gray-600">
+                  Chair: {member.chairCount} 回 / 発表: {member.speakerCount} 回
+                </div>
               </div>
-              {!member.isValid && <span className="text-sm text-red-500">(無効)</span>}
+              <Link href={`/portal/agendas/edit/${member.id}`} className="text-blue-500 hover:underline">
+                ✏️ 編集
+              </Link>
             </li>
           ))}
         </ul>
