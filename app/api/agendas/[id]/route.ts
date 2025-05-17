@@ -28,7 +28,7 @@ import { NextRequest, NextResponse } from 'next/server'
       date: meeting.date.toISOString(),
       titles: meeting.agendas.map((a) => a.title),
       speakers: meeting.agendas.map((a) => a.speaker.name),
-      chair: meeting.chair.name,
+      chair: meeting.chair?.name || '', 
     }
   
     return NextResponse.json(result)

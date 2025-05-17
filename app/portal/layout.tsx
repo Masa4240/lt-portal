@@ -12,7 +12,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             🟡 Home
           </Link>
           <Link href="/portal/new" className="text-lg hover:underline">
-            ✏️ Next Agenda
+            ✏️ New Agenda
           </Link>
           <Link href="/portal/history" className="text-lg hover:underline">
             📚 History

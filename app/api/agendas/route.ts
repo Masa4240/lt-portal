@@ -45,67 +45,67 @@ export async function GET() {
   return NextResponse.json(agendasFormatted)
 }
 
-
 // POST
 export async function POST(req: Request) {
   const body = await req.json()
   const date = new Date(body.date)
+  console.log(body)
 
-  // 同じ日付の Meeting があるか確認
+  let chairMember = null
+  if (body.chair && body.chair !== 'TBD') {
+    chairMember = await prisma.member.findFirst({
+      where: { name: body.chair },
+    })
+    if (!chairMember) {
+      return NextResponse.json({ error: `Member not found: ${body.chair}` }, { status: 400 });
+    }
+  }
+
+  // Meeting の取得 or 作成
   let meeting = await prisma.meeting.findFirst({
     where: { date },
   })
-  
-  //チェアをMemberから検索
-  const chairMember = await prisma.member.findFirst({
-    where: { name: body.chair },
-  })
-  if (!chairMember) {
-    return NextResponse.json({ error: `Member not found: ${body.chair}` }, { status: 400 });
-  }
 
-
-  // Meetingがなければ新規作成
   if (!meeting) {
     meeting = await prisma.meeting.create({
-      data: { 
+      data: {
         date,
-        chair: {
-          connect: { id: chairMember.id },
-        },
-       }
-      })
-    }
-// ④ Agenda を複数作成（タイトルとスピーカーをループで処理）
-const createdAgendas = []
-
-for (let i = 0; i < body.titles.length; i++) {
-  const title = body.titles[i]
-  const speakerName = body.speakers[i]
-
-  // スピーカーの Member を検索
-  const speakerMember = await prisma.member.findFirst({
-    where: { name: speakerName },
-  })
-
-  if (!speakerMember) {
-    return NextResponse.json({ error: `Speaker '${speakerName}' not found` }, { status: 400 })
+        ...(chairMember
+          ? { chair: { connect: { id: chairMember.id } } }
+          : { chairId: null }),
+      },
+    })
   }
 
-  const newAgenda = await prisma.agenda.create({
-    data: {
-      title,
-      meeting: {
-        connect: { id: meeting.id },
-      },
-      speaker: {
-        connect: { id: speakerMember.id },
-      },
-    },
-  })
+  // Agenda 複数作成
+  const createdAgendas = []
 
-  createdAgendas.push(newAgenda)
-}
+  for (let i = 0; i < body.titles.length; i++) {
+    const title = body.titles[i]
+    const speakerName = body.speakers[i]
 
-return NextResponse.json(createdAgendas)
+    const speakerMember = await prisma.member.findFirst({
+      where: { name: speakerName },
+    })
+
+    if (!speakerMember) {
+      return NextResponse.json({ error: `Speaker '${speakerName}' not found` }, { status: 400 })
+    }
+
+    const newAgenda = await prisma.agenda.create({
+      data: {
+        title,
+        meeting: {
+          connect: { id: meeting.id },
+        },
+        speaker: {
+          connect: { id: speakerMember.id },
+        },
+      },
+    })
+
+    createdAgendas.push(newAgenda)
+  }
+
+  return NextResponse.json(createdAgendas)
 }

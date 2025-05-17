@@ -8,9 +8,7 @@ export default function LoginPage() {
   const router = useRouter()
 
   const handleLogin = () => {
-    console.log("login")
     if (input === process.env.NEXT_PUBLIC_PASSCODE) {
-      console.log("succcess")
       document.cookie = `passcode=${input}; path=/`
       router.push('/portal')
     } else {

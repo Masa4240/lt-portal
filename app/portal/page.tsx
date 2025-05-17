@@ -32,21 +32,6 @@ export default function PortalPage() {
 
     fetchAgendas()
   }, [])
-  // const [agendas, setAgendas] = useState<Agenda[]>([])
-  // useEffect(() => {
-  //   const fetchAgendas = async () => {
-  //     const response = await fetch('/api/agendas')
-  //     if (response.ok) {
-  //       const data = await response.json()
-  //       setAgendas(data)
-  //     } else {
-  //       alert('アジェンダの取得に失敗しました。')
-  //     }
-  //   }
-
-  //   fetchAgendas()
-  // }, [])
-
 
   return (
     <div className="p-6 space-y-12 max-w-5xl mx-auto">
@@ -81,6 +66,7 @@ export default function PortalPage() {
           ))}
         </div>
       </section>      
+      <footer className="text-center text-xs text-gray-400 py-4">v1.0.2</footer>
     </div>
   )
 }
