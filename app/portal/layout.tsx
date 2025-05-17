@@ -6,13 +6,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   return (
     <div className="flex h-screen">
       <div className="w-60 bg-gray-100 p-6 space-y-6">
-        <h2 className="text-2xl font-bold mb-8">Portal</h2>
-        <nav className="flex flex-col space-y-4">
+        <h2 className="text-2xl font-bold mb-8 dark:text-black">Portal</h2>
+        <nav className="flex flex-col space-y-4 dark:text-black">
           <Link href="/portal" className="text-lg hover:underline">
             🟡 Home
           </Link>
           <Link href="/portal/new" className="text-lg hover:underline">
-            ✏️ Next Agenda
+            ✏️ New Agenda
           </Link>
           <Link href="/portal/history" className="text-lg hover:underline">
             📚 History

@@ -25,8 +25,8 @@ model Member {
 model Meeting {
   id        Int       @id @default(autoincrement())
   date      DateTime
-  chair     Member    @relation("ChairRelation", fields: [chairId], references: [id])
-  chairId   Int
+  chair     Member?    @relation("ChairRelation", fields: [chairId], references: [id])
+  chairId   Int?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 

@@ -23,7 +23,7 @@ export default function PortalPage() {
     <div>
       <section>
         <h2 className="text-2xl font-bold mb-4">📅 アジェンダ一覧</h2>
-        <div className="space-y-4">
+        <div className="space-y-4 dark:text-black">
           {agendas.map((agenda, index) => (
             <div key={index} className="rounded-2xl shadow-md border p-4 bg-white space-y-4">
               <div className="text-xl font-bold">{agenda.date}</div>

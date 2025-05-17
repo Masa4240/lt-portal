@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import ChairSelector from '@/components/ChairSelector'
+import SpeakerSelector from '@/components/SpeakerSelector'
 
 export default function PortalPage() {
   const [newAgenda, setNewAgenda] = useState<{
@@ -13,10 +15,12 @@ export default function PortalPage() {
     presentations: [{ title: '', speaker: '' }, { title: '', speaker: '' }], // 初期発表数を2にする
   })
   const handleAdd = async () => {
-    if (!newAgenda.date || !newAgenda.chair || newAgenda.presentations.length === 0) {
+    if (!newAgenda.date || (!newAgenda.chair && newAgenda.chair !== 'TBD') || newAgenda.presentations.length === 0) {
       alert('全部ちゃんと入れてね')
       return
     }
+
+    const chairValue = newAgenda.chair === 'TBD' ? null : newAgenda.chair
 
     const response = await fetch('/api/agendas', {
       method: 'POST',
@@ -25,7 +29,7 @@ export default function PortalPage() {
       },
       body: JSON.stringify({
         date: newAgenda.date,
-        chair: newAgenda.chair,
+        chair: chairValue,
         titles: newAgenda.presentations.map((p) => p.title),
         speakers: newAgenda.presentations.map((p) => p.speaker),
       }),
@@ -43,6 +47,7 @@ export default function PortalPage() {
     }
   }
 
+
   return (
     <div className="p-6 space-y-12 max-w-5xl mx-auto">
       <section>
@@ -57,15 +62,8 @@ export default function PortalPage() {
             }
           />
 
-          <input
-            type="text"
-            placeholder="Chair"
-            className="border p-2 w-full"
-            value={newAgenda.chair}
-            onChange={(e) =>
-              setNewAgenda({ ...newAgenda, chair: e.target.value })
-            }
-          />
+          <ChairSelector value={newAgenda.chair} onChange={(name) => setNewAgenda({ ...newAgenda, chair: name })} />
+
 
           {/* LT List */}
           <div className="space-y-2">
@@ -82,17 +80,15 @@ export default function PortalPage() {
                     setNewAgenda({ ...newAgenda, presentations: updated })
                   }}
                 />
-                <input
-                  type="text"
-                  placeholder="presentor"
-                  className="border p-2 flex-1"
-                  value={presentation.speaker}
-                  onChange={(e) => {
-                    const updated = [...newAgenda.presentations]
-                    updated[index].speaker = e.target.value
-                    setNewAgenda({ ...newAgenda, presentations: updated })
+                <SpeakerSelector
+                value={presentation.speaker}
+                onChange={(val) => {
+                  const updated = [...newAgenda.presentations]
+                  updated[index].speaker = val
+                  setNewAgenda({ ...newAgenda, presentations: updated })
                   }}
-                />
+                  />
+
                 {/* Delete Button */}
                 <button
                   type="button"
@@ -117,7 +113,7 @@ export default function PortalPage() {
                 presentations: [...newAgenda.presentations, { title: '', speaker: '' }],
               })
             }
-            className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
+            className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 dark:text-black"
           >
             ＋Add LT
           </button>
