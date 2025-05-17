@@ -78,6 +78,7 @@ export default function MembersPage() {
             <li key={member.id} className="border p-3 rounded-md shadow-sm flex justify-between items-center">
               <div>
                 <div className="font-semibold dark:text-black">{member.name}</div>
+
                 <div className="text-sm text-gray-600">
                   Chair: {member.chairCount} 回 / 発表: {member.speakerCount} 回
                 </div>
