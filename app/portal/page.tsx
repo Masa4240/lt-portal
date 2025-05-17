@@ -37,7 +37,7 @@ export default function PortalPage() {
     <div className="p-6 space-y-12 max-w-5xl mx-auto">
       <section>
         <h2 className="text-2xl font-bold mb-4">次回 & 次々回のアジェンダ</h2>
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 dark:text-black">
           {comingagendas.slice(0, 2).map((agenda) => (
             <div
               key={agenda.id}

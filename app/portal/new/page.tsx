@@ -113,7 +113,7 @@ export default function PortalPage() {
                 presentations: [...newAgenda.presentations, { title: '', speaker: '' }],
               })
             }
-            className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
+            className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 dark:text-black"
           >
             ＋Add LT
           </button>
