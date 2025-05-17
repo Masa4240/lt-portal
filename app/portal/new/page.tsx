@@ -62,15 +62,6 @@ export default function PortalPage() {
             }
           />
 
-          {/* <input
-            type="text"
-            placeholder="Chair"
-            className="border p-2 w-full"
-            value={newAgenda.chair}
-            onChange={(e) =>
-              setNewAgenda({ ...newAgenda, chair: e.target.value })
-            }
-          /> */}
           <ChairSelector value={newAgenda.chair} onChange={(name) => setNewAgenda({ ...newAgenda, chair: name })} />
 
 
@@ -97,17 +88,7 @@ export default function PortalPage() {
                   setNewAgenda({ ...newAgenda, presentations: updated })
                   }}
                   />
-                {/* <input
-                  type="text"
-                  placeholder="presentor"
-                  className="border p-2 flex-1"
-                  value={presentation.speaker}
-                  onChange={(e) => {
-                    const updated = [...newAgenda.presentations]
-                    updated[index].speaker = e.target.value
-                    setNewAgenda({ ...newAgenda, presentations: updated })
-                  }}
-                /> */}
+
                 {/* Delete Button */}
                 <button
                   type="button"

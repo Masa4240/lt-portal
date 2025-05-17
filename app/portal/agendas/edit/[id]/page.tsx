@@ -50,11 +50,6 @@ export default function EditAgendaPage() {
       <h1 className="text-2xl font-bold">Edit LT Agenda on {agenda.date.slice(0, 10)}</h1>
       <div>
         <label className="block font-semibold">Chair</label>
-        {/* <input
-          value={agenda.chair}
-          onChange={(e) => setAgenda({ ...agenda, chair: e.target.value })}
-          className="w-full border px-2 py-1 rounded"
-        /> */}
         <ChairSelector value={agenda.chair} onChange={(name) => setAgenda({ ...agenda, chair: name })} />
       </div>
 
